@@ -7,6 +7,14 @@ import todosFromServer from './api/todos';
 import { User } from './types.ts/User';
 import { Todo } from './types.ts/Todo';
 
+type NewTodo = {
+  id: number;
+  title: string;
+  completed: boolean;
+  userId: number;
+  user: User;
+};
+
 export const App = () => {
   const [currentTodos, setCurrentTodos] = useState(todosFromServer);
   const [todoTitle, setTodoText] = useState('');
@@ -16,17 +24,17 @@ export const App = () => {
   const [selecterHasError, setSelecterError] = useState(false);
 
   function setNewId(): number {
-    const higherId = Math.max(...todosFromServer.map((todo: Todo) => todo.id));
+    const higherId = Math.max(...currentTodos.map((todo: Todo) => todo.id));
 
     return higherId + 1;
   }
 
-  function findUserByName(userName: string): number | null {
+  function findUserByName(userName: string): User | null {
     const preperedUser = usersFromServer.find(
       user => user.name.trim().toLowerCase() === userName.trim().toLowerCase(),
     );
 
-    return preperedUser?.id || null;
+    return preperedUser || null;
   }
 
   function reset() {
@@ -52,17 +60,18 @@ export const App = () => {
       return;
     } else {
       const todoId = setNewId();
-      const userId = findUserByName(selectedValue);
+      const foundedUser = findUserByName(selectedValue);
 
-      if (!userId) {
+      if (!foundedUser) {
         return;
       }
 
-      const newTodo: Todo = {
+      const newTodo: NewTodo = {
         id: todoId,
         title: todoTitle,
         completed: false,
-        userId: userId,
+        userId: foundedUser.id,
+        user: foundedUser,
       };
 
       setCurrentTodos([...currentTodos, newTodo]);
@@ -128,7 +137,7 @@ export const App = () => {
         </button>
       </form>
 
-      <TodoList todos={currentTodos} />
+      <TodoList todos={currentTodos} users={usersFromServer} />
     </div>
   );
 };

@@ -1,15 +1,17 @@
 import { Todo } from '../../types.ts/Todo';
+import { User } from '../../types.ts/User';
 import { TodoInfo } from '../TodoInfo';
 
 type Props = {
   todos: Todo[];
+  users: User[];
 };
 
-export const TodoList = ({ todos }: Props) => {
+export const TodoList = ({ todos, users }: Props) => {
   return (
     <section className="TodoList">
       {todos.map((todo: Todo) => (
-        <TodoInfo todo={todo} key={`todo-${todo.id}`} />
+        <TodoInfo todo={todo} users={users} key={`todo-${todo.id}`} />
       ))}
     </section>
   );

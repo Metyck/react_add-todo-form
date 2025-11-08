@@ -1,20 +1,19 @@
 import classNames from 'classnames';
-
-import usersFromServer from '../../api/users';
 import { UserInfo } from '../UserInfo';
 import { User } from '../../types.ts/User';
 import { Todo } from '../../types.ts/Todo';
 
 type Props = {
   todo: Todo;
+  users: User[];
 };
 
 function findUserById(users: User[], id: number) {
   return users.find((user: User) => user.id === id);
 }
 
-export const TodoInfo = ({ todo }: Props) => {
-  const user = findUserById(usersFromServer, todo.userId);
+export const TodoInfo = ({ todo, users }: Props) => {
+  const user = findUserById(users, todo.userId);
 
   return (
     <article
