@@ -6,15 +6,6 @@ import { useState } from 'react';
 import todosFromServer from './api/todos';
 import { User } from './types.ts/User';
 import { Todo } from './types.ts/Todo';
-
-type NewTodo = {
-  id: number;
-  title: string;
-  completed: boolean;
-  userId: number;
-  user: User;
-};
-
 export const App = () => {
   const [currentTodos, setCurrentTodos] = useState(todosFromServer);
   const [todoTitle, setTodoText] = useState('');
@@ -66,7 +57,7 @@ export const App = () => {
         return;
       }
 
-      const newTodo: NewTodo = {
+      const newTodo: Todo = {
         id: todoId,
         title: todoTitle,
         completed: false,

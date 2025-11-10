@@ -13,7 +13,7 @@ function findUserById(users: User[], id: number) {
 }
 
 export const TodoInfo = ({ todo, users }: Props) => {
-  const user = findUserById(users, todo.userId);
+  const user = todo.user || findUserById(users, todo.userId);
 
   return (
     <article
